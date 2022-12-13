@@ -1,10 +1,10 @@
 const Block = require('./Block');
-const { GENESIS_DATA } = require('./config');
+const { GENESIS_DATA, MINE_RATE } = require('./config');
 
 const cryptoHash = require('./crypto-hash');
 
 describe('Block', () => {
-  const timestamp = 'a date';
+  const timestamp = 2000;
   const lastHash = 'Some last hash';
   const hash = 'a hash';
   const data = ['Hello', 'World'];
@@ -79,6 +79,26 @@ describe('Block', () => {
       expect(minedBlock.hash.substring(0, minedBlock.difficulty)).toEqual(
         '0'.repeat(minedBlock.difficulty)
       );
+    });
+  });
+
+  describe('adjustDifficulty()', () => {
+    it('raises the difficulty for a block mined too quickly', () => {
+      expect(
+        Block.adjustDifficulty({
+          originalBlock: block,
+          timestamp: block.timestamp + MINE_RATE - 100,
+        })
+      ).toEqual(block.difficulty + 1);
+    });
+
+    it('lowers the difficulty for a block mined too slowly', () => {
+      expect(
+        Block.adjustDifficulty({
+          originalBlock: block,
+          timestamp: block.timestamp + MINE_RATE + 100,
+        })
+      ).toEqual(block.difficulty - 1);
     });
   });
 });
