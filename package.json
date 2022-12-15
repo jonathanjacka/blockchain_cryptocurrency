@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --watchAll",
-    "server": "nodemon index.js"
+    "server": "nodemon index.js",
+    "start-redis": "redis-server --daemonize yes"
   },
   "keywords": [],
   "author": "Jonathan Jacka (https://jonathanjacka.com/)",
