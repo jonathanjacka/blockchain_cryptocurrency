@@ -1,9 +1,15 @@
 const express = require('express');
 const Blockchain = require('./Blockchain');
+const PubSub = require('./pubsub');
+
 const dotenv = require('dotenv').config();
 
 const app = express();
 const blockchain = new Blockchain();
+const pubsub = new PubSub({ blockchain });
+
+//testy testy
+setTimeout(() => pubsub.broadcastChain(), 1000);
 
 app.use(express.json());
 

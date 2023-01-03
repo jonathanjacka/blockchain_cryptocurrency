@@ -6,12 +6,14 @@
   "scripts": {
     "test": "jest --watchAll",
     "server": "nodemon index.js",
-    "start-redis": "redis-server --daemonize yes"
+    "start-redis": "redis-server --daemonize yes",
+    "dev": "npm run start-redis && npm run server"
   },
   "keywords": [],
   "author": "Jonathan Jacka (https://jonathanjacka.com/)",
   "license": "ISC",
   "dependencies": {
+    "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "hex-to-binary": "^1.0.1",
