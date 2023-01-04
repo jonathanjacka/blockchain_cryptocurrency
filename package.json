@@ -7,7 +7,8 @@
     "test": "jest --watchAll",
     "server": "nodemon index.js",
     "start-redis": "redis-server --daemonize yes",
-    "dev": "npm run start-redis && npm run server"
+    "dev": "npm run start-redis && npm run server",
+    "dev-peer": "cross-env GENERATE_PEER_PORT='true' nodemon index.js"
   },
   "keywords": [],
   "author": "Jonathan Jacka (https://jonathanjacka.com/)",
