@@ -21,6 +21,14 @@ class PubSub {
     this.subscriber.connect();
   }
 
+  subscribeToChannels() {
+    Object.values(CHANNELS).forEach((channel) =>
+      this.subscriber.subscribe(channel, (message, channel) =>
+        this.handleMessage(message, channel)
+      )
+    );
+  }
+
   handleMessage(message, channel) {
     console.log(`Message received - Channel: ${channel}. Message: ${message}`);
 
@@ -31,16 +39,15 @@ class PubSub {
     }
   }
 
-  subscribeToChannels() {
-    Object.values(CHANNELS).forEach((channel) =>
-      this.subscriber.subscribe(channel, (message, channel) =>
-        this.handleMessage(message, channel)
-      )
-    );
-  }
-
-  publish({ channel, message }) {
-    this.publisher.publish(channel, message);
+  /* Publish - Prevent subscribing to own message on broadcast:
+   * broadcaster unsubscribes from channel
+   * publishes message to channel
+   * then resubscribes to channel
+   */
+  async publish({ channel, message }) {
+    await this.subscriber.unsubscribe(channel);
+    await this.publisher.publish(channel, message);
+    await this.subscriber.subscribe(channel);
   }
 
   broadcastChain() {
